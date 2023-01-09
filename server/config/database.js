@@ -7,7 +7,7 @@ const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({
   user: 'postgres',
   database: 'tempCamera',
-  password: 'asdf1008',
+  password: '',
   port: 5432,
   host: 'localhost',
   max: 5,
