@@ -1,20 +1,10 @@
-import {
-  Grid,
-  Typography,
-  Box,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardActions,
-  Button,
-  IconButton,
-} from "@mui/material";
-
-import { ShareRounded, DeleteRounded, StarOutlined } from "@mui/icons-material";
+import { Grid } from "@mui/material";
 import { useEffect, useState } from "react";
+import ImgGridItem from "./ImgGridItem";
 const Dashboard = () => {
   const [prof, setProf] = useState({});
   const [allImages, setImgs] = useState([]);
+
   const fetchImage = async (uid) => {
     console.log(uid);
     await fetch("http://localhost:5000/fetchImage/" + uid, {
@@ -25,8 +15,12 @@ const Dashboard = () => {
     })
       .then((res) => res.json())
       .then((res) => {
+        const obj = {
+          uid: uid,
+          img: res.img,
+        };
         setImgs((arr) => {
-          arr = [...arr, res.img];
+          arr = [...arr, obj];
           return arr;
         });
       })
@@ -37,6 +31,7 @@ const Dashboard = () => {
   const fetchImages = () => {
     if (prof.imgs) prof.imgs.map(fetchImage);
   };
+
   useEffect(() => {
     const getProfile = async () => {
       await fetch("http://localhost:5000/getProfile", {
@@ -64,37 +59,9 @@ const Dashboard = () => {
   }, [prof]);
   return (
     <Grid container>
-      {allImages &&
-        allImages.map((img) => (
-          <Grid
-            bgcolor="secondary.main"
-            item
-            sx={{
-              border: "2px solid red",
-              overflow: "hidden",
-            }}
-            xs={6}
-            md={4}
-          >
-            <Card sx={{ height: "100%" }}>
-              <CardActionArea>
-                <CardMedia component="img" image={img} alt="green iguana" />
-              </CardActionArea>
-              <CardActions>
-                <IconButton>
-                  <ShareRounded />
-                </IconButton>
-                <IconButton>
-                  <DeleteRounded />
-                </IconButton>
-                <IconButton>
-                  <StarOutlined />
-                </IconButton>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
+      {allImages && allImages.map((item) => <ImgGridItem item={item} />)}
     </Grid>
   );
 };
+
 export default Dashboard;

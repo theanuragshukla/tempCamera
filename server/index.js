@@ -16,11 +16,7 @@ const conn = require('./config/mongoDb');
 const { imageSchema, userSchema, storageSchema } = require('./model');
 
 const { generateUid, verifyToken, resolveToken } = require('./utils');
-const {
-    checkName,
-    checkPass,
-    checkEmail,
-} = require('some-random-form-validator');
+const { checkName, checkPass, checkEmail } = require('./validator');
 const { log } = require('console');
 app.use(cookieParser());
 app.use(express.json({ limit: '50mb' }));
